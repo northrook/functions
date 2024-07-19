@@ -1,0 +1,32 @@
+{
+  "name": "northrook/functions",
+  "description": "Core support functions.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "files": [
+      "functions.php",
+      "filters.php",
+      "escapes.php",
+      "normalizers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Martin",
+      "email": "mn@northrook.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "symfony/deprecation-contracts": "@stable",
+    "symfony/var-dumper": "@stable",
+    "symfony/error-handler": "@stable",
+    "northrook/core": "dev-main",
+    "northrook/dev-env": "dev-main"
+  }
+}
