@@ -15,7 +15,7 @@ namespace Northrook;
 /**
  * Escapes string for use everywhere inside HTML (except for comments).
  */
-function escapeHtml( null | string | \Stringable $string ) : string {
+function escapeText( null | string | \Stringable $string ) : string {
     return htmlspecialchars( (string) $string, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8' );
 }
 
