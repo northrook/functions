@@ -9,7 +9,10 @@
       "boolean.php",
       "filters.php",
       "escapes.php",
-      "normalizers.php"
+      "normalizers.php",
+      "numbers.php",
+      "strings.php",
+      "arrays.php"
     ]
   },
   "authors": [

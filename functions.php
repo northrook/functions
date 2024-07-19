@@ -83,23 +83,6 @@ function replaceEach(
 }
 
 /**
- * # Ensure a number is within a range.
- *
- * @param int|float  $number
- * @param int|float  $ceil
- * @param int|float  $floor
- *
- * @return int|float
- */
-function numberWithin( int | float $number, int | float $ceil, int | float $floor ) : int | float {
-    return match ( true ) {
-        $number >= $ceil => $ceil,
-        $number < $floor => $floor,
-        default          => $number
-    };
-}
-
-/**
  * # Get the class name of a provided class, or the calling class.
  *
  * - Will use the `debug_backtrace()` to get the calling class if no `$class` is provided.
