@@ -6,6 +6,7 @@
   "autoload": {
     "files": [
       "functions.php",
+      "boolean.php",
       "filters.php",
       "escapes.php",
       "normalizers.php"

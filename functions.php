@@ -99,38 +99,6 @@ function numberWithin( int | float $number, int | float $ceil, int | float $floo
     };
 }
 
-function isUrl( mixed $url, ?string $requiredProtocol = null ) : bool {
-
-    if ( !$url || !isScalar( $url ) ) {
-        return false;
-    }
-
-    if ( \is_int( $url[ 0 ] ) ) {
-        return false;
-    }
-
-    if ( !\preg_match( '/([\w\-+:\\/]*?).+\.[a-z0-9]{2,}/', $url ) ) {
-        return false;
-    }
-
-    if ( $requiredProtocol && !\str_starts_with( $url, "$requiredProtocol://" ) ) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * # Determine if a value is a scalar.
- *
- * @param mixed  $value
- *
- * @return bool
- */
-function isScalar( mixed $value ) : bool {
-    return \is_scalar( $value ) || $value instanceof \Stringable || \is_null( $value );
-}
-
 /**
  * # Get the class name of a provided class, or the calling class.
  *
