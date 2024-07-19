@@ -23,10 +23,6 @@
     "php": ">=8.2"
   },
   "require-dev": {
-    "symfony/deprecation-contracts": "@stable",
-    "symfony/var-dumper": "@stable",
-    "symfony/error-handler": "@stable",
-    "northrook/core": "dev-main",
     "northrook/dev-env": "dev-main"
   }
 }
