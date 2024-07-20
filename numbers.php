@@ -78,3 +78,31 @@ function numberWithin( int | float $number, int | float $ceil, int | float $floo
         default          => $number
     };
 }
+
+
+/**
+ * Human-readable size notation for a byte value.
+ *
+ * @param string|int|float  $bytes  Bytes to calculate
+ *
+ * @return string
+ */
+function numberByteSize( string | int | float $bytes ) : string {
+
+    $unitDecimalsByFactor = [
+        [ 'B', 0 ],
+        [ 'kB', 0 ],
+        [ 'MB', 2 ],
+        [ 'GB', 2 ],
+        [ 'TB', 3 ],
+        [ 'PB', 3 ],
+    ];
+
+    $factor = $bytes ? floor( log( (int) $bytes, 1024 ) ) : 0;
+    $factor = min( $factor, count( $unitDecimalsByFactor ) - 1 );
+
+    $value = round( $bytes / ( 1024 ** $factor ), $unitDecimalsByFactor[ $factor ][ 1 ] );
+    $units = $unitDecimalsByFactor[ $factor ][ 0 ];
+
+    return $value . $units;
+}
