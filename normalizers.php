@@ -25,16 +25,28 @@ namespace Northrook;
  * ```
  *
  * @param string[]  $string
- * @param string    $separator
+ * @param string    $separator  = ['-', '_', ''][$any]
  *
  * @return string
  */
-function normalizeKey( string | array $string, string $separator = '-' ) : string {
+function normalizeKey(
+    string | array $string,
+    string         $separator = '-',
+    bool           $throwOnIllegalCharacters = false,
+) : string {
+
     // Convert to lowercase
     $string = \strtolower( \is_string( $string ) ? $string : \implode( $separator, $string ) );
 
+    // Enforce characters
+    if ( $throwOnIllegalCharacters && !\preg_match( "/^[a-zA-Z0-9_\-{$separator}]+$/", $string ) ) {
+        throw new \InvalidArgumentException(
+            'The provided string contains illegal characters. It must only accept ASCII letters, numbers, hyphens, and underscores.',
+        );
+    };
+
     // Replace non-alphanumeric characters with the separator
-    $string = \preg_replace( '/[^a-z0-9]+/i', $separator, $string );
+    $string = \preg_replace( "/[^a-z0-9{$separator}]+/i", $separator, $string );
 
     // Remove leading and trailing separators
     return \trim( $string, $separator );
