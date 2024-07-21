@@ -74,7 +74,7 @@ function isUrl( mixed $value, ?string $requiredProtocol = null ) : bool {
     }
 
     // Must only contain valid characters
-    if ( !\preg_match( '/([\w\-+:\\/]*?).+\.[a-z0-9]{2,}/', $value ) ) {
+    if ( !\preg_match( '/([\w\-+]*?[:\/]{2}).+\.[a-z0-9]{2,}/', $value ) ) {
         return false;
     }
 
