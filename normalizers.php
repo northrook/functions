@@ -26,6 +26,7 @@ namespace Northrook;
  *
  * @param string[]  $string
  * @param string    $separator  = ['-', '_', ''][$any]
+ * @param bool      $throwOnIllegalCharacters
  *
  * @return string
  */
