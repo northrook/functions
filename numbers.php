@@ -89,6 +89,15 @@ function numberWithin( int | float $number, int | float $ceil, int | float $floo
  */
 function numberByteSize( string | int | float $bytes ) : string {
 
+    if ( !\is_numeric( $bytes ) ) {
+        throw new \InvalidArgumentException(
+            message : "numberByteSize only accepts string, int, or float.
+        Was provided a " . gettype( $bytes ) . " value of: '" . print_r( $bytes, true ) . "'.",
+        );
+    }
+
+    $bytes = (float) $bytes;
+
     $unitDecimalsByFactor = [
         [ 'B', 0 ],
         [ 'kB', 0 ],
@@ -98,11 +107,11 @@ function numberByteSize( string | int | float $bytes ) : string {
         [ 'PB', 3 ],
     ];
 
-    $factor = $bytes ? floor( log( (int) $bytes, 1024 ) ) : 0;
-    $factor = min( $factor, count( $unitDecimalsByFactor ) - 1 );
+    $factor = (float) $bytes ? \floor( \log( (int) $bytes, 1024 ) ) : 0;
+    $factor = (float) \min( $factor, \count( $unitDecimalsByFactor ) - 1 );
 
-    $value = round( $bytes / ( 1024 ** $factor ), $unitDecimalsByFactor[ $factor ][ 1 ] );
-    $units = $unitDecimalsByFactor[ $factor ][ 0 ];
+    $value = \round( $bytes / ( 1024 ** $factor ), (int) $unitDecimalsByFactor[ $factor ][ 1 ] );
+    $units = (string) $unitDecimalsByFactor[ $factor ][ 0 ];
 
     return $value . $units;
 }
