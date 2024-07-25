@@ -16,7 +16,7 @@ namespace Northrook;
  * Escapes string for use everywhere inside HTML (except for comments).
  */
 function escapeText( null | string | \Stringable $string ) : string {
-    return htmlspecialchars( (string) $string, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8' );
+    return \htmlspecialchars( (string) $string, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8' );
 }
 
 
@@ -25,10 +25,9 @@ function escapeText( null | string | \Stringable $string ) : string {
  */
 function escapeHtmlText( null | string | \Stringable $string ) : string {
 
-    $string = htmlspecialchars( (string) $string, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8' );
-    $string = strtr( $string, [ '{{' => '{<!-- -->{', '{' => '&#123;' ] );
-    dump( $string );
-    return $string;
+    $string = \htmlspecialchars( (string) $string, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8' );
+
+    return \strtr( $string, [ '{{' => '{<!-- -->{', '{' => '&#123;' ] );
 }
 
 /**
@@ -38,14 +37,13 @@ function escapeHtmlAttr( null | string | \Stringable $string, bool $double = tru
 
     $string = (string) $string;
 
-    if ( str_contains( $string, '`' ) && strpbrk( $string, ' <>"\'' ) === false ) {
+    if ( \str_contains( $string, '`' ) && \strpbrk( $string, ' <>"\'' ) === false ) {
         $string .= ' '; // protection against innerHTML mXSS vulnerability nette/nette#1496
     }
 
-    $string = htmlspecialchars( $string, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8', $double );
-    $string = str_replace( '{', '&#123;', $string );
-    dump( $string );
-    return $string;
+    $string = \htmlspecialchars( $string, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE, 'UTF-8', $double );
+
+    return \str_replace( '{', '&#123;', $string );
 }
 
 
@@ -54,7 +52,7 @@ function escapeHtmlAttr( null | string | \Stringable $string, bool $double = tru
  */
 function escapeCss( $s ) : string {
     // http://www.w3.org/TR/2006/WD-CSS21-20060411/syndata.html#q6
-    return addcslashes( (string) $s, "\x00..\x1F!\"#$%&'()*+,./:;<=>?@[\\]^`{|}~" );
+    return \addcslashes( (string) $s, "\x00..\x1F!\"#$%&'()*+,./:;<=>?@[\\]^`{|}~" );
 }
 
 
