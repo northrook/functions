@@ -12,6 +12,10 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+function squish( string $string ) : string {
+    return \preg_replace( '# +#', ' ', $string );
+}
+
 function stringContains(
     string         $string,
     string | array $needle,
