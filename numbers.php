@@ -38,6 +38,9 @@ function numberPercentDifference(
     float $from,
     float $to,
 ) : float {
+    if ( !$from || $from === $to ) {
+        return 0;
+    }
     return (float) number_format( ( $from - $to ) / $from * 100, 2 );
 }
 
