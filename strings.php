@@ -12,6 +12,38 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+/**
+ * This function tries very hard to return a string from any given $value.
+ *
+ * @param mixed   $value
+ * @param string  $separator
+ * @param bool    $filter
+ *
+ * @return string
+ */
+function toString( mixed $value, string $separator = '', bool $filter = true ) : string {
+
+    if ( isScalar( $value ) ) {
+        return (string) $value;
+    }
+
+    if ( \is_array( $value ) || $value instanceof \ArrayAccess || $value instanceof \Iterator ) {
+        $array = \iterator_to_array( $value );
+        return \implode( $separator, $filter ? arrayFilter( $array ) : $array );
+    }
+
+    if ( \is_object( $value ) ) {
+        try {
+            return \serialize( $value );
+        }
+        catch ( \Throwable ) {
+            return $value::class;
+        }
+    }
+
+    return (string) $value;
+}
+
 function squish( string $string ) : string {
     return \preg_replace( '# +#', ' ', $string );
 }
