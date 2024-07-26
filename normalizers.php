@@ -93,7 +93,7 @@ function normalizePath(
 
 
         // Ensure the resulting path does not exceed the system limitations
-        validateCharacterLimit( $path, \PHP_MAXPATHLEN - 2, __NAMESPACE__ . '\normalizePath' );
+        stringCharacterLimit( $path, \PHP_MAXPATHLEN - 2, __NAMESPACE__ . '\normalizePath' );
 
         // Add to realpath cache if valid
         $path = \realpath( $path ) ?: $path;

@@ -254,29 +254,3 @@ function hashKey(
     // Hash the $value to a 16 character string
     return \hash( algo : 'xxh3', data : $value );
 }
-
-
-/**
- * Throws a {@see \LengthException} when the length of `$string` exceeds the provided `$limit`.
- *
- * @param string       $string
- * @param int          $limit
- * @param null|string  $caller  Class, method, or function name
- *
- * @return void
- */
-function validateCharacterLimit(
-    string  $string,
-    int     $limit,
-    ?string $caller = null,
-) : void {
-    $limit  = \PHP_MAXPATHLEN - 2;
-    $length = \strlen( $string );
-    if ( $length > $limit ) {
-        throw new \LengthException (
-            $caller
-                ? $caller . " resulted in a $length character string, exceeding the $limit limit."
-                : "The provided string is $length characters long, exceeding the $limit limit.",
-        );
-    }
-}
