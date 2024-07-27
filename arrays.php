@@ -103,7 +103,7 @@ function arrayAsObject( array | object $array, bool $filter = false ) : object {
 }
 
 function arrayFilter( array $array, ?callable $callback = null, int $mode = 0 ) : array {
-    return \array_filter( $array, $callback ?? static fn ( $v ) => \is_bool( $v ) || $v, $mode );
+    return \array_filter( $array, $callback ?? '\strlen', $mode );
 }
 
 function arrayFilterRecursive( array $array ) : array {
