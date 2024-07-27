@@ -12,6 +12,7 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+
 /**
  * TODO : [med] Only considers the first level of the array
  * TODO : [high] $caseSensitive assumes all keys are strings

@@ -12,6 +12,17 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+
+function stringExplode(
+    string $separator,
+    mixed  $string,
+    bool   $filter = true,
+    int    $limit = PHP_INT_MAX,
+) : array {
+    $exploded = \explode( $separator, toString( $string ) );
+    return $filter ? arrayFilter( $exploded ) : $exploded;
+}
+
 /**
  * This function tries very hard to return a string from any given $value.
  *
