@@ -36,6 +36,26 @@ function getProjectRootDirectory() : string {
     )();
 }
 
+/**
+ * Retrieves the system temp directory for this project.
+ *
+ * - A directory is named using a hash based on the projectRootDirectory.
+ * - The return is cached for this process.
+ *
+ * @param ?string  $append
+ *
+ * @return string
+ */
+function getSystemCacheDirectory( ?string $append = null ) : string {
+    static $systemCache;
+    $path = $systemCache ??= static function () : ?string {
+        $tempDir = \sys_get_temp_dir();
+        $dirHash = \hash( 'xxh3', getProjectRootDirectory() );
+        return "$tempDir/$dirHash";
+    };
+    return normalizePath( [ $path, $append ] );
+}
+
 function memoize( mixed $key, callable $callback ) : mixed {
     static $cache = [];
     return $cache[ encodeKey( $key ) ] ??= $callback();
