@@ -12,6 +12,8 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 const EMPTY_STRING = '';
 
 /**
@@ -54,6 +56,11 @@ function getSystemCacheDirectory( ?string $append = null ) : string {
         return "$tempDir/$dirHash";
     };
     return normalizePath( [ $path, $append ] );
+}
+
+function filesystem() : Filesystem {
+    static $filesystem;
+    return $filesystem ??= new Filesystem();
 }
 
 function memoize( mixed $key, callable $callback ) : mixed {

@@ -27,6 +27,7 @@
     "php": ">=8.2"
   },
   "require-dev": {
-    "northrook/dev-env": "dev-main"
+    "northrook/dev-env": "dev-main",
+    "symfony/filesystem": "^7.1"
   }
 }
