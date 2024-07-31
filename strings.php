@@ -55,8 +55,10 @@ function toString( mixed $value, string $separator = '', bool $filter = true ) :
     return (string) $value;
 }
 
-function squish( string $string ) : string {
-    return \preg_replace( '# +#', ' ', $string );
+function squish( string $string, bool $whitespaceOnly = false ) : string {
+    return $whitespaceOnly
+        ? \preg_replace( "# +#", WHITESPACE, $string )
+        : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
 function stringContains(

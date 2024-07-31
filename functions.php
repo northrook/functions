@@ -15,6 +15,7 @@ namespace Northrook;
 use Symfony\Component\Filesystem\Filesystem;
 
 const EMPTY_STRING = '';
+const WHITESPACE   = ' ';
 
 /**
  * Retrieves the project root directory.
