@@ -282,3 +282,34 @@ function hashKey(
     // Hash the $value to a 16 character string
     return \hash( algo : 'xxh3', data : $value );
 }
+
+/**
+ * # Generate a deterministic key from a system path string.
+ *
+ * The `$source` will be pass through {@see normalizeKey()}.
+ *
+ * If the resulting key starts with a normalized {@see getProjectRootDirectory()} string,
+ * the returned key will start from the project root.
+ *
+ *  ```
+ *  sourceKey( '/var/www/project/vendor/package/example.file' );
+ *  // => 'vendor-package-example-file'
+ *  ```
+ *
+ * @param string|\Stringable  $source
+ * @param string              $separator
+ *
+ * @return string
+ */
+function sourceKey( string | \Stringable $source, string $separator = '-' ) : string {
+    static $rootKey;
+    $rootKey[ $separator ] ??= normalizeKey( getProjectRootDirectory(), $separator );
+
+    $source = normalizeKey( (string) $source, $separator );
+
+    if ( \str_starts_with( $source, $rootKey[ $separator ] ) ) {
+        return substr( $source, strlen( $rootKey[ $separator ] ) + 1 );
+    }
+
+    return $source;
+}
