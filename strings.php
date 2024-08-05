@@ -61,6 +61,7 @@ function squish( string $string, bool $whitespaceOnly = false ) : string {
         : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
+
 function stringContains(
     string         $string,
     string | array $needle,
@@ -73,16 +74,16 @@ function stringContains(
     $count    = 0;
     $contains = [];
 
-    $find = static fn ( string $string ) => $caseSensitive ? $string : strtolower( $string );
+    $find = static fn ( string $string ) => $caseSensitive ? $string : \strtolower( $string );
 
     $string = $find( $string );
 
     if ( is_string( $needle ) ) {
-        $count = substr_count( $string, $find( $needle ) );
+        $count = \substr_count( $string, $find( $needle ) );
     }
     else {
         foreach ( $needle as $index => $value ) {
-            $match = substr_count( $string, $find( $value ) );
+            $match = \substr_count( $string, $find( $value ) );
             if ( $match ) {
                 $contains[] = $value;
                 $count      += $match;
@@ -91,16 +92,17 @@ function stringContains(
         }
     }
 
-    if ( $containsOnlyOne && count( $contains ) !== 1 ) {
+
+    if ( $containsOnlyOne && \count( $contains ) !== 1 ) {
         return false;
     }
 
-    if ( $containsAll && empty( $needle ) ) {
+    if ( $containsAll && \empty( $needle ) ) {
         return true;
     }
 
     if ( $returnNeedles ) {
-        return ( count( $needle ) === 1 ) ? $needle[ 0 ] : $needle;
+        return ( \count( $needle ) === 1 ) ? \reset( $contains ) : $contains;
     }
 
     return $count;
