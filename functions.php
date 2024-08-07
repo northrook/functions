@@ -17,6 +17,18 @@ use Symfony\Component\Filesystem\Filesystem;
 const EMPTY_STRING = '';
 const WHITESPACE   = ' ';
 
+const AUTO      = null;
+const FOREVER   = 0;
+const MINUTE    = 60;
+const HOUR      = 3600;
+const HOUR_4    = 14400;
+const HOUR_8    = 28800;
+const HOUR_12   = 43200;
+const DAY       = 86400;
+const WEEK      = 604800;
+const MONTH     = 2592000;
+const YEAR      = 31536000;
+
 /**
  * Retrieves the project root directory.
  *
