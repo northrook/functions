@@ -17,6 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 const EMPTY_STRING = '';
 const WHITESPACE   = ' ';
 
+const EPHEMERAL = -1;
 const AUTO      = null;
 const FOREVER   = 0;
 const MINUTE    = 60;
