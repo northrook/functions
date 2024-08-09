@@ -17,7 +17,7 @@ namespace {
     defined( 'WHITESPACE' ) ?: define( 'WHITESPACE', ' ' );
 }
 
-namespace Cache {
+namespace Persistence {
 
     const EPHEMERAL = -1;
     const AUTO      = null;
