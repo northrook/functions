@@ -59,8 +59,7 @@ namespace Northrook {
             $vendorDirectory = \array_slice( $explodeCurrentDirectory, 0, -3 );
             // Implode and return the $projectRoot path
             return \implode( DIRECTORY_SEPARATOR, $vendorDirectory );
-        }
-        )();
+        } )();
     }
 
     /**
@@ -75,11 +74,12 @@ namespace Northrook {
      */
     function getSystemCacheDirectory( ?string $append = null ) : string {
         static $systemCache;
-        $path = $systemCache ??= static function () : ?string {
+        $path = $systemCache ??= (
+        static function () : ?string {
             $tempDir = \sys_get_temp_dir();
             $dirHash = \hash( 'xxh3', getProjectRootDirectory() );
             return "$tempDir/$dirHash";
-        };
+        } )();
         return normalizePath( [ $path, $append ] );
     }
 
