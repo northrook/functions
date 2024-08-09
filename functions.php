@@ -12,7 +12,7 @@ declare( strict_types = 1 );
 
 namespace {
 
-    defined( 'TAB' ) ?: define( 'TAB', 'functions' );
+    defined( 'TAB' ) ?: define( 'TAB', "\t" );
     defined( 'EMPTY_STRING' ) ?: define( 'EMPTY_STRING', '' );
     defined( 'WHITESPACE' ) ?: define( 'WHITESPACE', ' ' );
 }
@@ -37,10 +37,9 @@ namespace Northrook {
 
     use Symfony\Component\Filesystem\Filesystem;
 
-    /** @deprecated */
+    const TAB          = "\t";
     const EMPTY_STRING = '';
-    /** @deprecated */
-    const WHITESPACE = ' ';
+    const WHITESPACE   = ' ';
 
     /**
      * Retrieves the project root directory.

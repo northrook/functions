@@ -56,7 +56,7 @@ function numberBetween( float $value, float $min, float $max ) : float {
     return \max( \min( $max, $value ), $min );
 }
 
-function intWithin( float $value, float $min, float $max, ) : float {
+function intWithin( float $value, float $min, float $max ) : float {
     return match ( true ) {
         $value >= $max => $max,
         $value < $min  => $min,
@@ -110,7 +110,7 @@ function numberByteSize( string | int | float $bytes ) : string {
         [ 'PB', 3 ],
     ];
 
-    $factor = (float) $bytes ? \floor( \log( (int) $bytes, 1024 ) ) : 0;
+    $factor = $bytes ? \floor( \log( (int) $bytes, 1024 ) ) : 0;
     $factor = (float) \min( $factor, \count( $unitDecimalsByFactor ) - 1 );
 
     $value = \round( $bytes / ( 1024 ** $factor ), (int) $unitDecimalsByFactor[ $factor ][ 1 ] );

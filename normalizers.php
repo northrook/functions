@@ -44,7 +44,7 @@ function normalizeKey(
         throw new \InvalidArgumentException(
             'The provided string contains illegal characters. It must only accept ASCII letters, numbers, hyphens, and underscores.',
         );
-    };
+    }
 
     // Replace non-alphanumeric characters with the separator
     $string = \preg_replace( "/[^a-z0-9{$separator}]+/i", $separator, $string );
