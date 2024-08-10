@@ -10,36 +10,9 @@
 
 declare( strict_types = 1 );
 
-namespace {
-
-    defined( 'TAB' ) ?: define( 'TAB', "\t" );
-    defined( 'EMPTY_STRING' ) ?: define( 'EMPTY_STRING', '' );
-    defined( 'WHITESPACE' ) ?: define( 'WHITESPACE', ' ' );
-}
-
-namespace Persistence {
-
-    const EPHEMERAL = -1;
-    const AUTO      = null;
-    const FOREVER   = 0;
-    const MINUTE    = 60;
-    const HOUR      = 3600;
-    const HOUR_4    = 14400;
-    const HOUR_8    = 28800;
-    const HOUR_12   = 43200;
-    const DAY       = 86400;
-    const WEEK      = 604800;
-    const MONTH     = 2592000;
-    const YEAR      = 31536000;
-}
-
 namespace Northrook {
 
     use Symfony\Component\Filesystem\Filesystem;
-
-    const TAB          = "\t";
-    const EMPTY_STRING = '';
-    const WHITESPACE   = ' ';
 
     /**
      * Retrieves the project root directory.
