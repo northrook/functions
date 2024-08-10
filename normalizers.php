@@ -33,6 +33,7 @@ namespace Northrook;
 function normalizeKey(
     string | array $string,
     string         $separator = '-',
+    int            $characterLimit = 0,
     bool           $throwOnIllegalCharacters = false,
 ) : string {
 
@@ -48,6 +49,12 @@ function normalizeKey(
 
     // Replace non-alphanumeric characters with the separator
     $string = \preg_replace( "/[^a-z0-9{$separator}]+/i", $separator, $string );
+
+    if ( $characterLimit && \strlen( $string ) >= $characterLimit ) {
+        throw new \InvalidArgumentException(
+          "The normalized key string exceeds the maximum length of '$characterLimit' characters.",
+        );
+    }
 
     // Remove leading and trailing separators
     return \trim( $string, $separator );
