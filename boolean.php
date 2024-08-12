@@ -14,6 +14,29 @@ namespace Northrook;
 
 
 /**
+ * Checks whether OPcache is installed and enabled for the given environment.
+ *
+ * @return bool
+ */
+function OPcacheEnabled() : bool {
+
+    // Ensure OPcache is installed and not disabled
+    if (
+        !\function_exists( 'opcache_invalidate' )
+        ||
+        !(bool) \ini_get( 'opcache.enable' ) ) {
+        return false;
+    }
+
+    // If called from CLI, check accordingly
+    if ( ( PHP_SAPI === 'cli' || \defined( 'STDIN' ) ) ) {
+        return (bool) \ini_get( 'opcache.enable_cli' );
+    }
+
+    return true;
+}
+
+/**
  * # Determine if a value is a scalar.
  *
  * @param mixed  $value
