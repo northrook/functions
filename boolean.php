@@ -12,6 +12,14 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+/**
+ * Check whether the script is being executed from a command line.
+ *
+ * @return bool
+ */
+function isCLI() : bool {
+    return ( PHP_SAPI === 'cli' || \defined( 'STDIN' ) );
+}
 
 /**
  * Checks whether OPcache is installed and enabled for the given environment.
