@@ -36,12 +36,8 @@ function OPcacheEnabled() : bool {
         return false;
     }
 
-    // If called from CLI, check accordingly
-    if ( ( PHP_SAPI === 'cli' || \defined( 'STDIN' ) ) ) {
-        return (bool) \ini_get( 'opcache.enable_cli' );
-    }
-
-    return true;
+    // If called from CLI, check accordingly, otherwise true
+    return !isCLI() || (bool) \ini_get( 'opcache.enable_cli' );
 }
 
 /**
