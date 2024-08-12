@@ -95,9 +95,17 @@ function normalizePath(
         // Explode strings for separator deduplication
         $exploded = \is_string( $normalize ) ? \explode( DIRECTORY_SEPARATOR, $normalize ) : $normalize;
 
+        // Ensure each part does not start or end with illegal characters
+        $exploded = \array_map(
+            static fn ( $item ) => \trim(
+                string     : $item,
+                characters : " \n\r\t\v\0\\/",
+            ),
+            $exploded,
+        );
+
         // Filter the exploded path, and implode using the directory separator
         $path = \implode( DIRECTORY_SEPARATOR, \array_filter( $exploded ) );
-
 
         // Ensure the resulting path does not exceed the system limitations
         stringCharacterLimit( $path, \PHP_MAXPATHLEN - 2, __NAMESPACE__ . '\normalizePath' );
