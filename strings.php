@@ -61,6 +61,12 @@ function squish( string $string, bool $whitespaceOnly = false ) : string {
         : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
+function stringStart( string $subject, string $substring, ?string $separator = null ) : string {
+    if ( \str_starts_with( $subject, $substring ) ) {
+        return $subject;
+    }
+    return $substring . $separator . $subject;
+}
 
 function stringEnd( string $subject, string $substring, ?string $separator = null ) : string {
     if ( \str_ends_with( $subject, $substring ) ) {
