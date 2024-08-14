@@ -62,6 +62,14 @@ function squish( string $string, bool $whitespaceOnly = false ) : string {
 }
 
 
+function stringEnd( string $subject, string $substring, ?string $separator = null ) : string {
+    if ( \str_ends_with( $subject, $substring ) ) {
+        return $subject;
+    }
+    return $subject . $separator . $substring;
+}
+
+
 function stringContains(
     string         $string,
     string | array $needle,
