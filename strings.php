@@ -61,6 +61,40 @@ function squish( string $string, bool $whitespaceOnly = false ) : string {
         : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
+function stringAfter( string $string, string $substring, bool $first = false ) : string {
+
+    if ( !\str_contains( $string, $substring ) ) {
+        return $string;
+    }
+
+    $offset = $first ? \strpos( $string, $substring ) : \strrpos( $string, $substring );
+
+    if ( $offset === false ) {
+        return $string;
+    }
+    else {
+        $offset += \strlen( $substring );
+    }
+
+    return \substr( $string, $offset );
+}
+
+function stringBefore( string $string, string $substring, bool $first = false ) : string {
+    if ( !\str_contains( $string, $substring ) ) {
+        return $string;
+    }
+    $offset = $first ? \strpos( $string, $substring ) : \strrpos( $string, $substring );
+
+    if ( $offset === false ) {
+        return $string;
+    }
+    // else {
+    //     $offset += \strlen( $substring );
+    // }
+
+    return \substr( $string, 0, $offset );
+}
+
 function stringStart( string $subject, string $substring, ?string $separator = null ) : string {
     if ( \str_starts_with( $subject, $substring ) ) {
         return $subject;
