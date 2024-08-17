@@ -298,9 +298,15 @@ namespace Northrook {
      *
      * @return string
      */
-    function sourceKey( string | \Stringable $source, string $separator = '-' ) : string {
+    function sourceKey(
+        string | \Stringable $source,
+        string               $separator = '-',
+        ?string              $fromRoot = null,
+    ) : string {
         static $rootKey;
-        $rootKey[ $separator ] ??= normalizeKey( getProjectRootDirectory(), $separator );
+        $rootKey[ $separator ] ??= normalizeKey(
+            [ getProjectRootDirectory(), $fromRoot ], $separator,
+        );
 
         $source = normalizeKey( (string) $source, $separator );
 
