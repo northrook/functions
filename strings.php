@@ -109,6 +109,41 @@ function stringEnd( string $subject, string $substring, ?string $separator = nul
     return $subject . $separator . $substring;
 }
 
+/**
+ * @param string  $string
+ * @param string  $substring
+ * @param bool    $first
+ * @param bool    $includeSubstring
+ *
+ * @return array{string, ?string}
+ */
+function stringSplit(
+    string $string,
+    string $substring,
+    bool   $first = true,
+    bool   $includeSubstring = true,
+) : array {
+    if ( !\str_contains( $string, $substring ) ) {
+        return [ $string, null ];
+    }
+
+    $offset = $first ? \strpos( $string, $substring ) : \strrpos( $string, $substring );
+
+    if ( $first ) {
+        $offset = $includeSubstring ? $offset + \strlen( $substring ) : $offset;
+    }
+    else {
+        $offset = $includeSubstring ? $offset : $offset - \strlen( $substring );
+    }
+
+    $before = \substr( $string, 0, $offset );
+    $after  = \substr( $string, $offset );
+
+    return [
+        $before,
+        $after,
+    ];
+}
 
 function stringContains(
     string         $string,
@@ -155,6 +190,7 @@ function stringContains(
 
     return $count;
 }
+
 
 
 /**
