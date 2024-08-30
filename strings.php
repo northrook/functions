@@ -12,15 +12,25 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
-
 function stringExplode(
     string $separator,
     mixed  $string,
     bool   $filter = true,
     int    $limit = PHP_INT_MAX,
-) : array {
+) : array
+{
     $exploded = \explode( $separator, toString( $string ) );
     return $filter ? arrayFilter( $exploded ) : $exploded;
+}
+
+function stringStripTags( string $string, string $replacement = ' ', ?string ...$allowed_tags ) : string
+{
+    return \str_replace(
+        '  ', ' ',
+        \strip_tags(
+            \str_replace( "<", "$replacement<", $string ),
+        ),
+    );
 }
 
 /**
@@ -32,8 +42,8 @@ function stringExplode(
  *
  * @return string
  */
-function toString( mixed $value, string $separator = '', bool $filter = true ) : string {
-
+function toString( mixed $value, string $separator = '', bool $filter = true ) : string
+{
     if ( isScalar( $value ) ) {
         return (string) $value;
     }
@@ -55,14 +65,15 @@ function toString( mixed $value, string $separator = '', bool $filter = true ) :
     return (string) $value;
 }
 
-function squish( string $string, bool $whitespaceOnly = false ) : string {
+function squish( string $string, bool $whitespaceOnly = false ) : string
+{
     return $whitespaceOnly
         ? \preg_replace( "# +#", WHITESPACE, $string )
         : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
-function stringAfter( string $string, string $substring, bool $first = false ) : string {
-
+function stringAfter( string $string, string $substring, bool $first = false ) : string
+{
     if ( !\str_contains( $string, $substring ) ) {
         return $string;
     }
@@ -79,7 +90,8 @@ function stringAfter( string $string, string $substring, bool $first = false ) :
     return \substr( $string, $offset );
 }
 
-function stringBefore( string $string, string $substring, bool $first = false ) : string {
+function stringBefore( string $string, string $substring, bool $first = false ) : string
+{
     if ( !\str_contains( $string, $substring ) ) {
         return $string;
     }
@@ -95,14 +107,16 @@ function stringBefore( string $string, string $substring, bool $first = false ) 
     return \substr( $string, 0, $offset );
 }
 
-function stringStart( string $subject, string $substring, ?string $separator = null ) : string {
+function stringStart( string $subject, string $substring, ?string $separator = null ) : string
+{
     if ( \str_starts_with( $subject, $substring ) ) {
         return $subject;
     }
     return $substring . $separator . $subject;
 }
 
-function stringEnd( string $subject, string $substring, ?string $separator = null ) : string {
+function stringEnd( string $subject, string $substring, ?string $separator = null ) : string
+{
     if ( \str_ends_with( $subject, $substring ) ) {
         return $subject;
     }
@@ -122,7 +136,8 @@ function stringSplit(
     string $substring,
     bool   $first = true,
     bool   $includeSubstring = true,
-) : array {
+) : array
+{
     if ( !\str_contains( $string, $substring ) ) {
         return [ $string, null ];
     }
@@ -152,12 +167,12 @@ function stringContains(
     bool           $containsOnlyOne = false,
     bool           $containsAll = false,
     bool           $caseSensitive = false,
-) : bool | int | array | string {
-
+) : bool | int | array | string
+{
     $count    = 0;
     $contains = [];
 
-    $find = static fn ( string $string ) => $caseSensitive ? $string : \strtolower( $string );
+    $find = static fn( string $string ) => $caseSensitive ? $string : \strtolower( $string );
 
     $string = $find( $string );
 
@@ -175,7 +190,6 @@ function stringContains(
         }
     }
 
-
     if ( $containsOnlyOne && \count( $contains ) !== 1 ) {
         return false;
     }
@@ -191,8 +205,6 @@ function stringContains(
     return $count;
 }
 
-
-
 /**
  * Throws a {@see \LengthException} when the length of `$string` exceeds the provided `$limit`.
  *
@@ -206,7 +218,8 @@ function stringCharacterLimit(
     string  $string,
     int     $limit,
     ?string $caller = null,
-) : void {
+) : void
+{
     $limit  = \PHP_MAXPATHLEN - 2;
     $length = \strlen( $string );
     if ( $length > $limit ) {

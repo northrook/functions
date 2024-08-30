@@ -12,7 +12,6 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
-
 /**
  * TODO : [med] Only considers the first level of the array
  * TODO : [high] $caseSensitive assumes all keys are strings
@@ -22,8 +21,8 @@ namespace Northrook;
  *
  * @return array
  */
-function arrayUnique( array $array, bool $caseSensitive = false ) : array {
-
+function arrayUnique( array $array, bool $caseSensitive = false ) : array
+{
     if ( !$caseSensitive ) {
         $array = array_map( "strtolower", $array );
     }
@@ -31,7 +30,8 @@ function arrayUnique( array $array, bool $caseSensitive = false ) : array {
     return array_flip( array_flip( $array ) );
 }
 
-function arrayFlatten( array $array, bool $filter = false, bool $unique = false ) : array {
+function arrayFlatten( array $array, bool $filter = false, bool $unique = false ) : array
+{
     $result = [];
 
     // if ( $filter ) {
@@ -60,7 +60,7 @@ function arrayFlatten( array $array, bool $filter = false, bool $unique = false 
 
     \array_walk_recursive(
         $array,
-        static function ( $item ) use ( &$result ) {
+        static function( $item ) use ( &$result ) {
             $result[] = $item;
         },
     );
@@ -75,8 +75,8 @@ function arrayFlatten( array $array, bool $filter = false, bool $unique = false 
  *
  * @return bool
  */
-function arrayKeyExists( array $array, array $keys ) : bool {
-
+function arrayKeyExists( array $array, array $keys ) : bool
+{
     foreach ( $keys as $key ) {
         if ( !\array_key_exists( $key, $array ) ) {
             return false;
@@ -86,8 +86,8 @@ function arrayKeyExists( array $array, array $keys ) : bool {
     return true;
 }
 
-function arrayAsObject( array | object $array, bool $filter = false ) : object {
-
+function arrayAsObject( array | object $array, bool $filter = false ) : object
+{
     if ( $filter && \is_array( $array ) ) {
         $array = \array_filter( $array );
     }
@@ -102,11 +102,13 @@ function arrayAsObject( array | object $array, bool $filter = false ) : object {
     }
 }
 
-function arrayFilter( array $array, ?callable $callback = null, int $mode = 0 ) : array {
-    return \array_filter( $array, $callback ?? '\strlen', $mode );
+function arrayFilter( array $array, ?callable $callback = null, int $mode = 0 ) : array
+{
+    return \array_filter( $array, $callback ?? static fn( $string ) => \strlen( $string ?? '' ), $mode );
 }
 
-function arrayFilterRecursive( array $array ) : array {
+function arrayFilterRecursive( array $array ) : array
+{
     foreach ( $array as $key => $value ) {
         if ( \is_array( $value ) ) {
             $array[ $key ] = !$value ? arrayFilterRecursive( $value ) : arrayFilter( $value );
@@ -118,7 +120,8 @@ function arrayFilterRecursive( array $array ) : array {
     return arrayFilter( $array );
 }
 
-function arrayReplaceKey( array $array, string $target, string $replacement ) : array {
+function arrayReplaceKey( array $array, string $target, string $replacement ) : array
+{
     $keys  = \array_keys( $array );
     $index = \array_search( $target, $keys, true );
 
@@ -130,17 +133,14 @@ function arrayReplaceKey( array $array, string $target, string $replacement ) : 
     return $array;
 }
 
-function arraySearchKeys( array $array, string ...$key ) : array {
-
+function arraySearchKeys( array $array, string ...$key ) : array
+{
     $get = [];
     foreach ( $key as $match ) {
-
         if ( isset( $array[ $match ] ) ) {
             $get[ $match ] = $array[ $match ];
         }
-
     }
 
     return $get;
-
 }

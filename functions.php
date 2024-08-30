@@ -295,6 +295,7 @@ namespace Northrook {
      *
      * @param string|\Stringable  $source
      * @param string              $separator
+     * @param null|string         $fromRoot
      *
      * @return string
      */
