@@ -14,6 +14,7 @@ namespace Northrook {
 
     use Symfony\Component\Filesystem\Filesystem;
 
+
     /**
      * Retrieves the project root directory.
      *
@@ -22,10 +23,11 @@ namespace Northrook {
      *
      * @return string
      */
-    function getProjectRootDirectory() : string {
+    function getProjectRootDirectory() : string
+    {
         static $projectRoot;
         return $projectRoot ??= (
-        static function () : string {
+        static function() : string {
             // Get an array of each directory leading to this file
             $explodeCurrentDirectory = \explode( DIRECTORY_SEPARATOR, __DIR__ );
             // Slice off three levels, in this case /core/northrook/composer-dir, commonly /vendor
@@ -45,10 +47,11 @@ namespace Northrook {
      *
      * @return string
      */
-    function getSystemCacheDirectory( ?string $append = null ) : string {
+    function getSystemCacheDirectory( ?string $append = null ) : string
+    {
         static $systemCache;
         $path = $systemCache ??= (
-        static function () : ?string {
+        static function() : ?string {
             $tempDir = \sys_get_temp_dir();
             $dirHash = \hash( 'xxh3', getProjectRootDirectory() );
             return "$tempDir/$dirHash";
@@ -56,12 +59,14 @@ namespace Northrook {
         return normalizePath( [ $path, $append ] );
     }
 
-    function filesystem() : Filesystem {
+    function filesystem() : Filesystem
+    {
         static $filesystem;
         return $filesystem ??= new Filesystem();
     }
 
-    function memoize( mixed $key, callable $callback ) : mixed {
+    function memoize( mixed $key, callable $callback ) : mixed
+    {
         static $cache = [];
         return $cache[ encodeKey( $key ) ] ??= $callback();
     }
@@ -69,7 +74,8 @@ namespace Northrook {
     function timestamp(
         string | \DateTimeInterface $dateTime = 'now',
         string | \DateTimeZone      $timezone = 'UTC',
-    ) : \DateTimeImmutable {
+    ) : \DateTimeImmutable
+    {
         try {
             return new \DateTimeImmutable( $dateTime, \timezone_open( $timezone ) ?: null );
         }
@@ -94,8 +100,8 @@ namespace Northrook {
         array          $map,
         string | array $content,
         bool           $caseSensitive = true,
-    ) : string | array {
-
+    ) : string | array
+    {
         if ( !$content ) {
             return $content;
         }
@@ -123,7 +129,8 @@ namespace Northrook {
      *
      * @return string
      */
-    function classBasename( string | object | null $class = null ) : string {
+    function classBasename( string | object | null $class = null ) : string
+    {
         $class     ??= \debug_backtrace()[ 1 ] [ 'class' ];
         $class     = \is_object( $class ) ? $class::class : $class;
         $namespace = \strrpos( $class, '\\' );
@@ -150,8 +157,8 @@ namespace Northrook {
         bool                   $includeTrait = true,
         bool                   $namespace = true,
         bool                   $details = false,
-    ) : array {
-
+    ) : array
+    {
         $class ??= \debug_backtrace()[ 1 ] [ 'class' ];
         $class = \is_object( $class ) ? $class::class : $class;
 
@@ -177,7 +184,6 @@ namespace Northrook {
         $classes = \array_keys( $classes );
 
         return $namespace ? $classes : \array_map( 'Northrook\Core\Function\classBasename', $classes );
-
     }
 
     /**
@@ -196,23 +202,23 @@ namespace Northrook {
      *
      * @return array<string, bool>
      */
-    function booleanValues( array $array, bool $default = true ) : array {
-
+    function booleanValues( array $array, bool $default = true ) : array
+    {
         // Isolate the options
-        $array = \array_filter( $array, static fn ( $value ) => \is_bool( $value ) || \is_null( $value ) );
+        $array = \array_filter( $array, static fn( $value ) => \is_bool( $value ) || \is_null( $value ) );
 
         // If any option is true, set all others to false
         if ( \in_array( true, $array, true ) ) {
-            return \array_map( static fn ( $option ) => $option === true, $array );
+            return \array_map( static fn( $option ) => $option === true, $array );
         }
 
         // If any option is false, set all others to true
         if ( \in_array( false, $array, true ) ) {
-            return \array_map( static fn ( $option ) => $option !== false, $array );
+            return \array_map( static fn( $option ) => $option !== false, $array );
         }
 
         // If none are true or false, set all to the default
-        return \array_map( static fn ( $option ) => $default, $array );
+        return \array_map( static fn( $option ) => $default, $array );
     }
 
     /**
@@ -224,7 +230,8 @@ namespace Northrook {
      *
      * @return string
      */
-    function encodeKey( mixed ...$value ) : string {
+    function encodeKey( mixed ...$value ) : string
+    {
         return \json_encode( $value, 64 | 256 | 512 );
     }
 
@@ -262,7 +269,8 @@ namespace Northrook {
     function hashKey(
         mixed  $value,
         string $encoder = 'json',
-    ) : string {
+    ) : string
+    {
         // Use serialize if defined
         if ( $encoder === 'serialize' ) {
             $value = \serialize( $value );
@@ -303,7 +311,8 @@ namespace Northrook {
         string | \Stringable $source,
         string               $separator = '-',
         ?string              $fromRoot = null,
-    ) : string {
+    ) : string
+    {
         static $rootKey;
         $rootKey[ $separator ] ??= normalizeKey(
             [ getProjectRootDirectory(), $fromRoot ], $separator,
@@ -316,5 +325,31 @@ namespace Northrook {
         }
 
         return $source;
+    }
+
+    function regexNamedGroups(
+        string $pattern,
+        string $subject,
+        int    $offset = 0,
+        int    &$count = 0,
+        int    $flags = PREG_SET_ORDER,
+    ) : array
+    {
+        \preg_match_all( $pattern, $subject, $matches, $flags, $offset );
+
+        foreach ( $matches as $index => $match ) {
+            $match = \array_filter( $match, static fn( $value, $key ) => \is_string( $key ) ? $value : false, 1 );
+
+            if ( $match ) {
+                $matches[ $index ] = $match;
+            }
+            else {
+                unset( $matches[ $index ] );
+            }
+        }
+
+        $count += \count( $matches );
+
+        return $matches;
     }
 }
