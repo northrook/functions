@@ -107,6 +107,36 @@ function stringBefore( string $string, string $substring, bool $first = false ) 
     return \substr( $string, 0, $offset );
 }
 
+function stringStartsWith( string $string, string | array $substring, bool $caseSensitive = false ) : bool
+{
+    if ( !$caseSensitive ) {
+        $string = \strtolower( $string );
+    }
+
+    foreach ( (array) $substring as $substring ) {
+        if ( \str_starts_with( $string, $caseSensitive ? $substring : \strtolower( $substring ) ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function stringEndsWith( string $string, string | array $substring, bool $caseSensitive = false ) : bool
+{
+    if ( !$caseSensitive ) {
+        $string = \strtolower( $string );
+    }
+
+    foreach ( (array) $substring as $substring ) {
+        if ( \str_ends_with( $string, $caseSensitive ? $substring : \strtolower( $substring ) ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function stringStart( string $subject, string $substring, ?string $separator = null ) : string
 {
     if ( \str_starts_with( $subject, $substring ) ) {
