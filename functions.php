@@ -12,6 +12,12 @@ declare( strict_types = 1 );
 
 namespace Northrook {
 
+    const
+    TAB          = "\t",
+    EMPTY_STRING = '',
+    WHITESPACE   = ' ';
+
+    use JetBrains\PhpStorm\Language;
     use Symfony\Component\Filesystem\Filesystem;
 
 
@@ -27,7 +33,8 @@ namespace Northrook {
     {
         static $projectRoot;
         return $projectRoot ??= (
-        static function() : string {
+        static function() : string
+        {
             // Get an array of each directory leading to this file
             $explodeCurrentDirectory = \explode( DIRECTORY_SEPARATOR, __DIR__ );
             // Slice off three levels, in this case /core/northrook/composer-dir, commonly /vendor
@@ -51,7 +58,8 @@ namespace Northrook {
     {
         static $systemCache;
         $path = $systemCache ??= (
-        static function() : ?string {
+        static function() : ?string
+        {
             $tempDir = \sys_get_temp_dir();
             $dirHash = \hash( 'xxh3', getProjectRootDirectory() );
             return "$tempDir/$dirHash";
@@ -325,6 +333,18 @@ namespace Northrook {
         }
 
         return $source;
+    }
+
+    function pregExtract(
+        #[Language( 'RegExp' )]
+        string $pattern,
+        string $string,
+    ) : null | string | array
+    {
+        if ( false === \preg_match_all( $pattern, $string, $matches, PREG_SET_ORDER ) ) {
+            return null;
+        }
+        return $matches[ 0 ][ 0 ];
     }
 
     function regexNamedGroups(

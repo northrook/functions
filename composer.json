@@ -5,7 +5,6 @@
   "license": "MIT",
   "autoload": {
     "files": [
-      "constants.php",
       "functions.php",
       "boolean.php",
       "filters.php",
