@@ -17,7 +17,8 @@ namespace Northrook;
  *
  * @return bool
  */
-function isCLI() : bool {
+function isCLI() : bool
+{
     return ( PHP_SAPI === 'cli' || \defined( 'STDIN' ) );
 }
 
@@ -26,8 +27,8 @@ function isCLI() : bool {
  *
  * @return bool
  */
-function OPcacheEnabled() : bool {
-
+function OPcacheEnabled() : bool
+{
     // Ensure OPcache is installed and not disabled
     if (
         !\function_exists( 'opcache_invalidate' )
@@ -41,19 +42,31 @@ function OPcacheEnabled() : bool {
 }
 
 /**
+ * False if passed value is considered `null` and `empty` type values, retains `0` and `false`.
+ *
+ * @param mixed  $value
+ *
+ * @return bool
+ */
+function isEmpty( mixed $value ) : bool
+{
+    return \is_bool( $value ) || \is_numeric( $value ) || ( bool ) $value;
+}
+
+/**
  * # Determine if a value is a scalar.
  *
  * @param mixed  $value
  *
  * @return bool
  */
-function isScalar( mixed $value ) : bool {
+function isScalar( mixed $value ) : bool
+{
     return \is_scalar( $value ) || $value instanceof \Stringable || \is_null( $value );
 }
 
-
-function isEmail( mixed $value, ?string ...$enforceDomain ) : bool {
-
+function isEmail( mixed $value, ?string ...$enforceDomain ) : bool
+{
     // Can not be an empty string
     if ( !$value || !is_string( $value ) ) {
         return false;
@@ -87,9 +100,8 @@ function isEmail( mixed $value, ?string ...$enforceDomain ) : bool {
     return true;
 }
 
-
-function isUrl( mixed $value, ?string $requiredProtocol = null ) : bool {
-
+function isUrl( mixed $value, ?string $requiredProtocol = null ) : bool
+{
     // Can not be an empty string
     if ( !$value || !is_string( $value ) ) {
         return false;
