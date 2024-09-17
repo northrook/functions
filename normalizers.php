@@ -35,8 +35,8 @@ function normalizeKey(
     string         $separator = '-',
     int            $characterLimit = 0,
     bool           $throwOnIllegalCharacters = false,
-) : string {
-
+) : string
+{
     // Convert to lowercase
     $string = \strtolower( \is_string( $string ) ? $string : \implode( $separator, $string ) );
 
@@ -52,14 +52,13 @@ function normalizeKey(
 
     if ( $characterLimit && \strlen( $string ) >= $characterLimit ) {
         throw new \InvalidArgumentException(
-          "The normalized key string exceeds the maximum length of '$characterLimit' characters.",
+            "The normalized key string exceeds the maximum length of '$characterLimit' characters.",
         );
     }
 
     // Remove leading and trailing separators
     return \trim( $string, $separator );
 }
-
 
 /**
  * # Normalise a `string` or `string[]`, assuming it is a `path`.
@@ -84,11 +83,12 @@ function normalizeKey(
 function normalizePath(
     string | array $string,
     bool           $trailingSlash = false,
-) : string {
+) : string
+{
     static $cache = [];
     return $cache[ \json_encode( [ $string, $trailingSlash ], 832 ) ] ??= (
-    static function () use ( $string, $trailingSlash ) : string {
-
+    static function() use ( $string, $trailingSlash ) : string
+    {
         // Normalize separators
         $normalize = \str_replace( [ '\\', '/' ], DIRECTORY_SEPARATOR, $string );
 
@@ -97,7 +97,7 @@ function normalizePath(
 
         // Ensure each part does not start or end with illegal characters
         $exploded = \array_map(
-            static fn ( $item ) => \trim(
+            static fn( $item ) => \trim(
                 string     : $item,
                 characters : " \n\r\t\v\0\\/",
             ),
@@ -118,21 +118,24 @@ function normalizePath(
     } )();
 }
 
-
 /**
- * @param string  $string  $string
- * @param bool    $trailingSlash
+ * @param string[]  $string  $string
+ * @param bool      $trailingSlash
  *
  * @return string
  */
 function normalizeUrl(
-    string $string,
-    bool   $trailingSlash = false,
-) : string {
+    string | array $string,
+    bool           $trailingSlash = false,
+) : string
+{
     static $cache = [];
     return $cache[ \json_encode( [ $string, $trailingSlash ], 832 ) ] ??= (
-    static function () use ( $string, $trailingSlash ) : string {
-        $protocol = '';
+    static function() use ( $string, $trailingSlash ) : string
+    {
+        $string   = \is_array( $string ) ? \implode( '/', $string ) : $string;
+
+        $protocol = '/';
         $fragment = '';
         $query    = '';
 
@@ -148,7 +151,6 @@ function normalizeUrl(
 
         // If the $string contains both
         if ( $matchQuery && $matchFragment ) {
-
             // To parse both regardless of order, we check which one appears first in the $string.
             // Split the $string by the first $match, which will then contain the other.
 
