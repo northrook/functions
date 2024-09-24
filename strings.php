@@ -12,11 +12,20 @@ declare( strict_types = 1 );
 
 namespace Northrook;
 
+function stringEncode( string $string, string $encoding = 'UTF-8' ) : string
+{
+    $entities = \htmlentities( $string, ENT_NOQUOTES, $encoding, false );
+    $decoded  = \htmlspecialchars_decode( $entities, ENT_NOQUOTES );
+    $map      = [ 0x80, 0x10FFFF, 0, ~0 ];
+
+    return \mb_encode_numericentity( $decoded, $map, 'UTF-8' );
+}
+
 function stringExplode(
-    string $separator,
-    mixed  $string,
-    bool   $filter = true,
-    int    $limit = PHP_INT_MAX,
+        string $separator,
+        mixed  $string,
+        bool   $filter = true,
+        int    $limit = PHP_INT_MAX,
 ) : array
 {
     $exploded = \explode( $separator, toString( $string ) );
@@ -26,10 +35,10 @@ function stringExplode(
 function stringStripTags( string $string, string $replacement = ' ', ?string ...$allowed_tags ) : string
 {
     return \str_replace(
-        '  ', ' ',
-        \strip_tags(
-            \str_replace( "<", "$replacement<", $string ),
-        ),
+            '  ', ' ',
+            \strip_tags(
+                    \str_replace( "<", "$replacement<", $string ),
+            ),
     );
 }
 
@@ -68,8 +77,8 @@ function toString( mixed $value, string $separator = '', bool $filter = true ) :
 function squish( string $string, bool $whitespaceOnly = false ) : string
 {
     return $whitespaceOnly
-        ? \preg_replace( "# +#", WHITESPACE, $string )
-        : \preg_replace( "#\s+#", WHITESPACE, $string );
+            ? \preg_replace( "# +#", WHITESPACE, $string )
+            : \preg_replace( "#\s+#", WHITESPACE, $string );
 }
 
 function stringAfter( string $string, string $substring, bool $first = false ) : string
@@ -162,10 +171,10 @@ function stringEnd( string $subject, string $substring, ?string $separator = nul
  * @return array{string, ?string}
  */
 function stringSplit(
-    string $string,
-    string $substring,
-    bool   $first = true,
-    bool   $includeSubstring = true,
+        string $string,
+        string $substring,
+        bool   $first = true,
+        bool   $includeSubstring = true,
 ) : array
 {
     if ( !\str_contains( $string, $substring ) ) {
@@ -185,18 +194,18 @@ function stringSplit(
     $after  = \substr( $string, $offset );
 
     return [
-        $before,
-        $after,
+            $before,
+            $after,
     ];
 }
 
 function stringContains(
-    string         $string,
-    string | array $needle,
-    bool           $returnNeedles = false,
-    bool           $containsOnlyOne = false,
-    bool           $containsAll = false,
-    bool           $caseSensitive = false,
+        string         $string,
+        string | array $needle,
+        bool           $returnNeedles = false,
+        bool           $containsOnlyOne = false,
+        bool           $containsAll = false,
+        bool           $caseSensitive = false,
 ) : bool | int | array | string
 {
     $count    = 0;
@@ -245,18 +254,18 @@ function stringContains(
  * @return void
  */
 function stringCharacterLimit(
-    string  $string,
-    int     $limit,
-    ?string $caller = null,
+        string  $string,
+        int     $limit,
+        ?string $caller = null,
 ) : void
 {
     $limit  = \PHP_MAXPATHLEN - 2;
     $length = \strlen( $string );
     if ( $length > $limit ) {
         throw new \LengthException (
-            $caller
-                ? $caller . " resulted in a $length character string, exceeding the $limit limit."
-                : "The provided string is $length characters long, exceeding the $limit limit.",
+                $caller
+                        ? $caller . " resulted in a $length character string, exceeding the $limit limit."
+                        : "The provided string is $length characters long, exceeding the $limit limit.",
         );
     }
 }
