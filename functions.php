@@ -20,7 +20,6 @@ namespace Northrook {
     use JetBrains\PhpStorm\Language;
     use Symfony\Component\Filesystem\Filesystem;
 
-
     /**
      * Retrieves the project root directory.
      *
@@ -74,8 +73,8 @@ namespace Northrook {
     }
 
     function timestamp(
-        string | \DateTimeInterface $dateTime = 'now',
-        string | \DateTimeZone      $timezone = 'UTC',
+            string | \DateTimeInterface $dateTime = 'now',
+            string | \DateTimeZone      $timezone = 'UTC',
     ) : \DateTimeImmutable
     {
         try {
@@ -83,9 +82,9 @@ namespace Northrook {
         }
         catch ( \Exception $exception ) {
             throw new \InvalidArgumentException(
-                message  : "Unable to create a new DateTimeImmutable object for $timezone.",
-                code     : 500,
-                previous : $exception,
+                    message  : "Unable to create a new DateTimeImmutable object for $timezone.",
+                    code     : 500,
+                    previous : $exception,
             );
         }
     }
@@ -99,9 +98,9 @@ namespace Northrook {
      * @return array|string|string[] The processed `$content`, or null if `$content` is empty
      */
     function replaceEach(
-        array          $map,
-        string | array $content,
-        bool           $caseSensitive = true,
+            array          $map,
+            string | array $content,
+            bool           $caseSensitive = true,
     ) : string | array
     {
         if ( !$content ) {
@@ -111,8 +110,8 @@ namespace Northrook {
         $keys = \array_keys( $map );
 
         return $caseSensitive
-            ? \str_replace( $keys, $map, $content )
-            : \str_ireplace( $keys, $map, $content );
+                ? \str_replace( $keys, $map, $content )
+                : \str_ireplace( $keys, $map, $content );
     }
 
     /**
@@ -153,12 +152,12 @@ namespace Northrook {
      * @return array
      */
     function extendingClasses(
-        string | object | null $class = null,
-        bool                   $includeSelf = true,
-        bool                   $includeInterface = true,
-        bool                   $includeTrait = true,
-        bool                   $namespace = true,
-        bool                   $details = false,
+            string | object | null $class = null,
+            bool                   $includeSelf = true,
+            bool                   $includeInterface = true,
+            bool                   $includeTrait = true,
+            bool                   $namespace = true,
+            bool                   $details = false,
     ) : array
     {
         $class ??= \debug_backtrace()[ 1 ] [ 'class' ];
@@ -269,8 +268,8 @@ namespace Northrook {
      * @return string 16 character hash of the value
      */
     function hashKey(
-        mixed  $value,
-        string $encoder = 'json',
+            mixed  $value,
+            string $encoder = 'json',
     ) : string
     {
         // Use serialize if defined
@@ -310,14 +309,14 @@ namespace Northrook {
      * @return string
      */
     function sourceKey(
-        string | \Stringable $source,
-        string               $separator = '-',
-        ?string              $fromRoot = null,
+            string | \Stringable $source,
+            string               $separator = '-',
+            ?string              $fromRoot = null,
     ) : string
     {
         static $rootKey;
         $rootKey[ $separator ] ??= normalizeKey(
-            [ getProjectRootDirectory(), $fromRoot ], $separator,
+                [ getProjectRootDirectory(), $fromRoot ], $separator,
         );
 
         $source = normalizeKey( (string) $source, $separator );
@@ -330,9 +329,9 @@ namespace Northrook {
     }
 
     function pregExtract(
-        #[Language( 'RegExp' )]
-        string $pattern,
-        string $string,
+            #[Language( 'RegExp' )]
+            string $pattern,
+            string $string,
     ) : null | string | array
     {
         if ( false === \preg_match_all( $pattern, $string, $matches, PREG_SET_ORDER ) ) {
@@ -342,20 +341,20 @@ namespace Northrook {
     }
 
     function regexNamedGroups(
-        string $pattern,
-        string $subject,
-        int    $offset = 0,
-        int    &$count = 0,
-        int    $flags = PREG_SET_ORDER,
+            string $pattern,
+            string $subject,
+            int    $offset = 0,
+            int    &$count = 0,
+            int    $flags = PREG_SET_ORDER,
     ) : array
     {
         \preg_match_all( $pattern, $subject, $matches, $flags, $offset );
 
         foreach ( $matches as $index => $match ) {
-            $match = \array_filter( $match, static fn( $value, $key ) => \is_string( $key ) ? $value : false, 1 );
+            $named = \array_filter( $match, static fn( $value, $key ) => \is_string( $key ) ? $value : false, 1 );
 
-            if ( $match ) {
-                $matches[ $index ] = $match;
+            if ( $named ) {
+                $matches[ $index ] = [ 'match' => \array_shift( $match ), ... $named, ];
             }
             else {
                 unset( $matches[ $index ] );
