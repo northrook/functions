@@ -22,8 +22,8 @@ function stringEncode( string $string, string $encoding = 'UTF-8' ) : string
 }
 
 function stringExplode(
-        string $separator,
         mixed  $string,
+        string $separator = ',',
         bool   $filter = true,
         int    $limit = PHP_INT_MAX,
 ) : array
