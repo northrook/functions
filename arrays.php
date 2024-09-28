@@ -10,18 +10,6 @@
 
 declare( strict_types = 1 );
 
-namespace {
-
-    \defined( 'ARRAY_FILTER_USE_VALUE' )
-        ?
-        \trigger_error(
-            message     : 'Constant ARRAY_FILTER_USE_VALUE already defined.',
-            error_level : E_USER_WARNING,
-        )
-        :
-        \define( 'ARRAY_FILTER_USE_VALUE', 0 );
-}
-
 namespace Northrook {
 
     use JetBrains\PhpStorm\ExpectedValues;

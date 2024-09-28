@@ -4,12 +4,11 @@
   "type": "library",
   "license": "MIT",
   "autoload": {
+    "psr-4": {
+      "Northrook\\": "src/"
+    },
     "files": [
-      "functions.php",
-      "boolean.php",
-      "filters.php",
-      "escapes.php",
-      "normalizers.php",
+      "src/functions.php",
       "numbers.php",
       "strings.php",
       "arrays.php"
@@ -24,10 +23,16 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=8.2"
+    "php": ">=8.3"
   },
   "require-dev": {
     "northrook/dev-env": "dev-main",
-    "symfony/filesystem": "^7.1"
+    "symfony/filesystem": "^7.1",
+    "phpstan/phpstan": "@stable",
+    "jetbrains/phpstorm-attributes": "^1.1",
+    "friendsofphp/php-cs-fixer": "^3.64"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse"
   }
 }
