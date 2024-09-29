@@ -631,7 +631,7 @@ namespace String {
      *
      * @return string[]
      */
-    function explode(
+    function split(
             null | string | \Stringable $string,
             string                      $separator = ',',
             int                         $limit = PHP_INT_MAX,
@@ -678,13 +678,15 @@ namespace String {
      *
      * @return array{string, ?string}
      */
-    function split(
+
+    function bisect(
             string $string,
             string $substring,
             bool   $first = true,
             bool   $includeSubstring = true,
     ) : array
     {
+
         if ( !\str_contains( $string, $substring ) ) {
             return [ $string, null ];
         }
