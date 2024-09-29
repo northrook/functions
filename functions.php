@@ -1550,7 +1550,7 @@ namespace Array {
      *
      * @return object
      */
-    function arrayAsObject( array | object $array, bool $filter = false ) : object
+    function asObject( array | object $array, bool $filter = false ) : object
     {
         if ( $filter && \is_array( $array ) ) {
             $array = \array_filter( $array );
